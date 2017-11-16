@@ -34,6 +34,7 @@ import (
 	"github.com/bytom/protocol/bc/legacy"
 	"github.com/bytom/types"
 	"github.com/bytom/version"
+	"github.com/bytom/profile"
 )
 
 const (
@@ -261,14 +262,13 @@ func NewNode(config *cfg.Config) *Node {
 		sw.AddReactor("PEX", pexReactor)
 	}
 
-	// add the event switch to all services
-	// they should all satisfy events.Eventable
-	//SetEventSwitch(eventSwitch, bcReactor, mempoolReactor, consensusReactor)
+	log.Infof("profile cpu:", config.ProfileCpu)
+	if config.ProfileCpu != "" {
+		profile.StartCpuProfile(config.BaseConfig.CpuDir())
+	}
 
-	// run the profile server
-	profileHost := config.ProfListenAddress
-	if profileHost != "" {
-		// to do: start profile host
+	if config.ProfileMem != "" {
+		profile.StartMemProfile(config.BaseConfig.MemDir())
 	}
 
 	node := &Node{

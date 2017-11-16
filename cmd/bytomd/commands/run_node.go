@@ -19,6 +19,9 @@ var runNodeCmd = &cobra.Command{
 }
 
 func init() {
+	// base flags
+	runNodeCmd.Flags().String("prof_cpu", config.ProfileCpu, "Profile cpu")
+	runNodeCmd.Flags().String("prof_mem", config.ProfileMem, "Profile mem")
 	// p2p flags
 	runNodeCmd.Flags().String("p2p.laddr", config.P2P.ListenAddress, "Node listen address. (0.0.0.0:0 means any interface, any port)")
 	runNodeCmd.Flags().String("p2p.seeds", config.P2P.Seeds, "Comma delimited host:port seed nodes")

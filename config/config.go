@@ -60,8 +60,9 @@ type BaseConfig struct {
 	// A custom human readable name for this node
 	Moniker string `mapstructure:"moniker"`
 
-	// TCP or UNIX socket address for the profiling server to listen on
-	ProfListenAddress string `mapstructure:"prof_laddr"`
+	ProfileCpu string `mapstructure:"prof_cpu"`
+
+	ProfileMem string `mapstructure:"prof_mem"`
 
 	// If this node is many blocks behind the tip of the chain, FastSync
 	// allows them to catchup quickly by downloading blocks in parallel
@@ -94,7 +95,6 @@ func DefaultBaseConfig() BaseConfig {
 	return BaseConfig{
 		Genesis:           "genesis.json",
 		Moniker:           "anonymous",
-		ProfListenAddress: "",
 		FastSync:          true,
 		FilterPeers:       false,
 		TxIndex:           "kv",
@@ -123,6 +123,14 @@ func (b BaseConfig) DBDir() string {
 
 func (b BaseConfig) KeysDir() string {
 	return rootify(b.KeysPath, b.RootDir)
+}
+
+func (b BaseConfig) CpuDir() string {
+	return rootify(b.ProfileCpu, b.RootDir)
+}
+
+func (b BaseConfig) MemDir() string {
+	return rootify(b.ProfileMem, b.RootDir)
 }
 
 func DefaultLogLevel() string {

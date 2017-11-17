@@ -319,7 +319,7 @@ func (n *Node) OnStop() {
 	log.Info("Stopping Node")
 	// TODO: gracefully disconnect from peers.
 	n.sw.Stop()
-
+	profile.StopCpuProfile()
 }
 
 func (n *Node) RunForever() {

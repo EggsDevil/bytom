@@ -7,6 +7,7 @@ import (
 
 	"github.com/bytom/errors"
 	"github.com/bytom/math/checked"
+	"reflect"
 )
 
 type Op uint8
@@ -483,5 +484,18 @@ func init() {
 			ops[i] = opInfo{Op(i), fmt.Sprintf("NOPx%02x", i), opNop}
 			isExpansion[i] = true
 		}
+	}
+}
+
+func (inst *Instruction)IsPushdata() bool {
+	opdata := opInfo{OP_1, "DATA", opPushdata}
+	oname := reflect.ValueOf(opdata.fn)
+	fname := reflect.ValueOf(ops[inst.Op].fn)
+
+	//judge the opInfo.fn is opPushdata or opFalse
+	if oname == fname || inst.Op == OP_FALSE {
+		return true
+	}else{
+		return false
 	}
 }

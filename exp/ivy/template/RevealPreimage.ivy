@@ -1,0 +1,6 @@
+contract RevealPreimage(hash: Hash) locks value {
+  clause reveal(string: String) {
+    verify sha3(string) == hash
+    unlock value
+  }
+}

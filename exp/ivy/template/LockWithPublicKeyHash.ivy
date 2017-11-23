@@ -1,0 +1,7 @@
+contract LockWithPublicKeyHash(pubKeyHash: Hash) locks value {
+  clause spend(pubKey: PublicKey, sig: Signature) {
+    verify sha3(pubKey) == pubKeyHash
+    verify checkTxSig(pubKey, sig)
+    unlock value
+  }
+}

@@ -1,0 +1,6 @@
+contract LockWithPublicKey(publicKey: PublicKey) locks locked {
+  clause unlockWithSig(sig: Signature) {
+    verify checkTxSig(publicKey, sig)
+    unlock locked
+  }
+}

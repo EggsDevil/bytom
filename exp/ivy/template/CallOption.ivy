@@ -1,0 +1,16 @@
+contract CallOption(strikePrice: Amount,
+                    strikeCurrency: Asset,
+                    seller: Program,
+                    buyerKey: PublicKey,
+                    deadline: Time) locks underlying {
+  clause exercise(buyerSig: Signature) requires payment: strikePrice of strikeCurrency {
+    verify before(deadline)
+    verify checkTxSig(buyerKey, buyerSig)
+    lock payment with seller
+    unlock underlying
+  }
+  clause expire() {
+    verify after(deadline)
+    lock underlying with seller
+  }
+}

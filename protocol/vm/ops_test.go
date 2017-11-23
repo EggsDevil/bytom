@@ -138,3 +138,27 @@ func TestParseProgram(t *testing.T) {
 		}
 	}
 }
+
+func TestIsPushData(t *testing.T) {
+	cases := []struct {
+		want    Instruction
+		wantErr error
+	}{
+		{
+			want: Instruction{Op: OP_16, Data: []byte{16}, Len: 1},
+		},
+		{
+			want: Instruction{Op: OP_DATA_32, Data: []byte{16}, Len: 1},
+		},
+	}
+
+	for _, c := range cases {
+		if c.want.IsPushdata() {
+			t.Logf("check success")
+		} else if c.wantErr != nil {
+			continue
+		} else {
+			t.Errorf("check false: %v -- %v", ops[OP_1].fn, ops[c.want.Op].fn)
+		}
+	}
+}

@@ -1,0 +1,14 @@
+contract LoanCollateral(assetLoaned: Asset,
+                        amountLoaned: Amount,
+                        repaymentDue: Time,
+                        lender: Program,
+                        borrower: Program) locks collateral {
+  clause repay() requires payment: amountLoaned of assetLoaned {
+    lock payment with lender
+    lock collateral with borrower
+  }
+  clause default() {
+    verify after(repaymentDue)
+    lock collateral with lender
+  }
+}

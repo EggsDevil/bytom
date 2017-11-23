@@ -1,0 +1,12 @@
+contract Escrow(agent: PublicKey,
+                sender: Program,
+                recipient: Program) locks value {
+  clause approve(sig: Signature) {
+    verify checkTxSig(agent, sig)
+    lock value with recipient
+  }
+  clause reject(sig: Signature) {
+    verify checkTxSig(agent, sig)
+    lock value with sender
+  }
+}
